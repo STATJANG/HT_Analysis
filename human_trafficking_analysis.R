@@ -2,6 +2,7 @@ library(forecast)
 library(tscount)
 library(ggplot2)
 library(cowplot)
+library(anytime)
 
 ###Loading the data.
 #ht.count = read.csv("ht_count_cleaned.csv")
@@ -375,27 +376,3 @@ plot_grid(ggplot.im,ggplot.lab,ggplot.agr,nrow=3, labels = "")#c("(a)","(b)","(c
 
 
 
-
-##Table
-labor.table=
-round(
-rbind(
-cbind(t(summary(ht.EMNLABORREG2)[c(1,3,2,4),1:2]),AIC=summary(ht.EMNLABORREG2)$AIC,BIC=summary(ht.EMNLABORREG2)$BIC),
-cbind(t(summary(ht.EMNLABORREG3)[c(1,3,2,4),1:2]),AIC=summary(ht.EMNLABORREG3)$AIC,BIC=summary(ht.EMNLABORREG3)$BIC),
-cbind(t(summary(ht.EMNLABORREG)[c(1,3,2,4),1:2]),AIC=summary(ht.EMNLABORREG)$AIC,BIC=summary(ht.EMNLABORREG)$BIC),
-cbind(t(summary(ht.EMNLABORREG1)[c(1,3,2,4),1:2]),AIC=summary(ht.EMNLABORREG1)$AIC,BIC=summary(ht.EMNLABORREG1)$BIC),
-cbind(t(summary(ht.EMNLABORREG4)[c(1,3,2,4),1:2]),AIC=summary(ht.EMNLABORREG4)$AIC,BIC=summary(ht.EMNLABORREG4)$BIC),
-cbind(t(summary(ht.EMNLABORREG5)[c(1,3,2,4),1:2]),AIC=summary(ht.EMNLABORREG5)$AIC,BIC=summary(ht.EMNLABORREG5)$BIC)),4)
-
-immigration.table = 
-round(
-  rbind(
-    cbind(t(summary(ht.IMMIGRATION)[c(1,3,2,4),1:2]),AIC=summary(ht.IMMIGRATION)$AIC,BIC=summary(ht.IMMIGRATION)$BIC),
-    cbind(t(summary(ht.IMMIGRATION1)[c(1,3,2,4),1:2]),AIC=summary(ht.IMMIGRATION1)$AIC,BIC=summary(ht.IMMIGRATION1)$BIC),
-    cbind(t(summary(ht.IMMIGRATION2)[c(1,3,2,4),1:2]),AIC=summary(ht.IMMIGRATION2)$AIC,BIC=summary(ht.IMMIGRATION2)$BIC),
-    cbind(t(summary(ht.IMMIGRATION3)[c(1,3,2,4),1:2]),AIC=summary(ht.IMMIGRATION3)$AIC,BIC=summary(ht.IMMIGRATION3)$BIC),
-    cbind(t(summary(ht.IMMIGRATION4)[c(1,3,2,4),1:2]),AIC=summary(ht.IMMIGRATION4)$AIC,BIC=summary(ht.IMMIGRATION4)$BIC),
-    cbind(t(summary(ht.IMMIGRATION5)[c(1,3,2,4),1:2]),AIC=summary(ht.IMMIGRATION5)$AIC,BIC=summary(ht.IMMIGRATION5)$BIC)),4)
-
-xtable::xtable(labor.table,digits = 4)
-xtable::xtable(immigration.table,digits = 4)
