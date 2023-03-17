@@ -9,11 +9,6 @@ library(anytime)
 #ht.covar = read.csv("ht_covariate_cleaned.csv")
 
 plot(ht.count[,2],type="l",ylab="",xlab="",main="Counts of Human Trafficking in US")
-##Correlation 
-par(mfrow=c(1,2))
-acf(ht.count[,2]);pacf(ht.count[,2])
-par(mfrow=c(1,1))
-mean(ht.count$count) ; var(ht.count$count)
 
 #ggplot
 ggplot.ht <- ggplot(data = data.frame(month = anydate(ht.count$month),count=ht.count$count), aes(x = month, y = count)) + 
@@ -59,7 +54,7 @@ summary(ht.cpi3)
 summary(ht.cpi4)
 summary(ht.cpi5)
 
-
+#differencing
 ht.gdp = tsglm(ht.count$count[-139],model = list(past_mean=1,past_obs=1),xreg=diff(ht.covar$gdp[c(14:152)]),link="log",distr = "nbinom")
 ht.gdp1 = tsglm(ht.count$count,model = list(past_mean=1,past_obs=1),xreg=diff(ht.covar$gdp[c(14:153)-1]),link="log",distr = "nbinom")
 ht.gdp2 = tsglm(ht.count$count,model = list(past_mean=1,past_obs=1),xreg=diff(ht.covar$gdp[c(14:153)-2]),link="log",distr = "nbinom")
@@ -73,7 +68,7 @@ summary(ht.gdp3)
 summary(ht.gdp4)
 summary(ht.gdp5)
 
-
+#log-differencing
 ht.unemp = tsglm(ht.count$count,model = list(past_mean=1,past_obs=1),xreg=diff(log(ht.covar$unemp[c(14:153)])),link="log",distr = "nbinom")
 ht.unemp1 = tsglm(ht.count$count,model = list(past_mean=1,past_obs=1),xreg=diff(log(ht.covar$unemp[c(14:153)-1])),link="log",distr = "nbinom")
 ht.unemp2 = tsglm(ht.count$count,model = list(past_mean=1,past_obs=1),xreg=diff(log(ht.covar$unemp[c(14:153)-2])),link="log",distr = "nbinom")
@@ -184,13 +179,9 @@ summary(ht.EMNLABORREG5)
 summary(ht.EMNLABORREG)$AIC
 summary(ht.EMNLABORREG1)$AIC
 summary(ht.EMNLABORREG2)$AIC
-summary(ht.EMNLABORREG3)$AIC ##Selected.R
+summary(ht.EMNLABORREG3)$AIC 
 summary(ht.EMNLABORREG4)$AIC
 summary(ht.EMNLABORREG5)$AIC
-#ts.plot(ht.count$count,type="o")
-#points(ht.EMNLABORREG3$fitted.values,col="red",pch=20,type="o")
-
-
 
 
 
@@ -213,8 +204,6 @@ summary(ht.IMMIGRATION2)$AIC
 summary(ht.IMMIGRATION3)$AIC
 summary(ht.IMMIGRATION4)$AIC
 summary(ht.IMMIGRATION5)$AIC
-#ts.plot(ht.count$count,type="o")
-#points(ht.IMMIGRATION$fitted.values,col="red",pch=20,type="o")
 
 
 
@@ -309,9 +298,6 @@ summary(ht.EmpPopRatioWomen5);summary(ht.EmpPopRatioWomen5)$AIC
 
 ####Significant variables
 ####Significant variables
-####Significant variables
-####Significant variables
-####Significant variables
 summary(ht.IMMIGRATION)
 summary(ht.EMNLABORREG2)
 summary(ht.AGRPOLICY)
@@ -319,7 +305,6 @@ summary(ht.IMMIGRATION)$QIC; summary(ht.EMNLABORREG2)$QIC ; summary(ht.AGRPOLICY
 
 
 
-###Fitted lines
 ###Fitted lines
 ###Fitted lines
 ggplot.ht.null <- ggplot(data = data.frame(month = anydate(ht.count$month),count=ht.count$count), aes(x = month, y = count)) + 
@@ -340,7 +325,7 @@ plot_grid(ggplot.ht.im,ggplot.ht.lab,ggplot.ht.agr, labels = c("(a)","(b)","(c)"
 dev.off()
 
 
-# For each of significant pull factors, comparison between NB vs Poisson)
+# For each of significant factors, comparison between NB vs Poisson)
 ht.IMMIGRATION.Poisson = tsglm(ht.count$count,model = list(past_mean=1,past_obs=1),xreg=ht.covar$EMVIMMIGRATION[c(15:153)],link="log")
 ht.EMNLABORREG2.Poisson = tsglm(ht.count$count,model = list(past_mean=1,past_obs=1),xreg=ht.covar$EMNLABORREG[c(15:153)-2],link="log")
 ht.AGRPOLICY.Poisson = tsglm(ht.count$count,model = list(past_mean=1,past_obs=1),xreg=ht.covar$EMVAGRPOLICY[c(15:153)],link="log")
@@ -360,7 +345,7 @@ dev.off()
 
 
 
-##Time series plot of significant pull factors.
+##Time series plot of significant factors.
 ggplot.agr <- ggplot(data = data.frame(month = anydate(ht.count$month),count=ht.covar$EMVAGRPOLICY[c(15:153)]), aes(x = month, y = count)) + 
   geom_point()+  geom_line(size=1) + labs(x="",y="")
   
